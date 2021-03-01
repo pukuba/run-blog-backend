@@ -6,7 +6,7 @@ import { ObjectId } from "mongodb"
 const batchLoadCommentFn = async (postIds: readonly ObjectId[]) => {
     const db = await DB.get()
     const comments = await db.collection("comment").find({ postId: { $in: postIds } }).toArray()
-    const table = [] = new Map()
+    const table = new Map()
     const resultArr: Comment[][] = Array.from(Array(postIds.length), () => [])
     postIds.forEach((postId: ObjectId, idx: number) => {
         table.set(postId + "", idx)
