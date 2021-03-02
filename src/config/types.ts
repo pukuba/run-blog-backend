@@ -20,4 +20,5 @@ export interface Post {
     _id: ObjectId
     category: string
     tags: string[]
+    postNumber: number
 }

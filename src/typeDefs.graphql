@@ -1,9 +1,9 @@
 type Query{
     test: String!
     allPosts(page: Int! = 1): PostSearch!
-    searchByKeyword(page: Int! = 1): PostSearch!
-    searchByTags(page: Int! = 1): PostSearch!
-    searchByCategory(page: Int! = 1): PostSearch!
+    searchByKeyword(page: Int! = 1, keyword: String!): PostSearch!
+    searchByTags(page: Int! = 1, tags: [String!]!): PostSearch!
+    searchByCategory(page: Int! = 1, category: String!): PostSearch!
     getPost(id: String!): Post!
 }
 
@@ -23,6 +23,7 @@ type Post{
     category: String!
     tags: [String!]!
     comments: [Comment!]!
+    postNumber: Int!
 }
 
 type PostSearch{

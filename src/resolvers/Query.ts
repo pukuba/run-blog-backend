@@ -1,6 +1,16 @@
-import { getPost } from "resolvers/app/posts"
+import {
+    getPost,
+    allPosts,
+    searchByKeyword,
+    searchByTags,
+    searchByCategory
+} from "resolvers/app/posts"
 
 export default {
     test: () => "Server On",
-    getPost
+    getPost,
+    allPosts,
+    searchByKeyword,
+    searchByTags,
+    searchByCategory
 }
