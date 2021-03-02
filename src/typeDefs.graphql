@@ -1,5 +1,10 @@
 type Query{
     test: String!
+    allPosts(page: Int! = 1): PostSearch!
+    searchByKeyword(page: Int! = 1): PostSearch!
+    searchByTags(page: Int! = 1): PostSearch!
+    searchByCategory(page: Int! = 1): PostSearch!
+    getPost(id: String!): Post!
 }
 
 type Comment{
@@ -16,5 +21,11 @@ type Post{
     id: String!
     title: String!
     category: String!
-    tags [String!]!
+    tags: [String!]!
+    comments: [Comment!]!
+}
+
+type PostSearch{
+    postCount: Int!
+    posts: [Post!]!
 }

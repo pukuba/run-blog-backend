@@ -1,3 +1,6 @@
+import { getPost } from "resolvers/app/posts"
+
 export default {
-    test: () => "Server On"
+    test: () => "Server On",
+    getPost
 }
