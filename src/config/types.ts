@@ -4,7 +4,6 @@ import DataLoader from "dataloader"
 export interface Comment {
     author: string
     content: string
-    blog: string
     address: string
     postId: ObjectId
     _id: ObjectId
@@ -19,4 +18,6 @@ export interface Post {
     title: string
     content: string
     _id: ObjectId
+    category: string
+    tags: string[]
 }

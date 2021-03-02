@@ -1,4 +1,3 @@
-import { Db } from "mongodb"
 import { Loaders, Post, Comment } from "config/types"
 
 export default {
