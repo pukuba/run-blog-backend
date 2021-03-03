@@ -57,7 +57,6 @@ type Post{
     category: String!
     tags: [String!]!
     comments: [Comment!]!
-    postNumber: Int!
     date: String!
 }
 

@@ -1,34 +1,43 @@
 import assert from "assert"
 import app from "index"
 import request from "supertest"
-
 import { mock1 } from "test/mock"
+
+const ids = []
 
 describe(`API-TEST Create`, () => {
     it(`Create Test-1`, async () => {
         const query = `
             mutation{
                 createPost(
-                    tilte:"${mock1.title}",
-                    content:"${mock1.content}",
+                    content:${JSON.stringify(mock1.content)},
                     category:"${mock1.category}",
-                    tags:["md","mocha"],
-                    author:"${mock1.author}"
+                    author:"${mock1.author}",
+                    tags:[${mock1.tags}],
+                    title:"${mock1.title}"
                 ){
                     title
-                    author
+                    result
                     date
+                    tags
+                    author
+                    id
+                    category
                 }
             }
         `
-        console.log(query)
+
         const res = await request(app)
             .post(`/api`)
             .set("Content-Type", "application/json")
             .send(JSON.stringify({ query }))
             .expect(200)
-        const data = res.body.data.craetePost
-        console.log(data)
+        const data = res.body.data.createPost
+        assert.deepStrictEqual(data.title, "Test Mock1")
+        assert.deepStrictEqual(data.tags, ["Markdown", "mocha"])
+        assert.deepStrictEqual(data.category, "TEST")
+        assert.deepStrictEqual(Object.keys(data).length, 7)
+        ids.push(data.id)
     })
     it(`Server Running Test-2`, async () => {
         const query = `
