@@ -24,12 +24,15 @@ export const createPost = async (
     for (const tag of tags) {
         await db.collection("tag").updateOne({ tag }, { $inc: { cnt: 1 } }, { upsert: true })
     }
+    const now = new Date();
+    const date = now.toISOString().slice(2, 10).replace(/-/g, "");
     return await db.collection("post").insertOne({
         title,
         category,
         tags,
         author,
         content,
+        date,
         result: md.render(content)
     }).then(({ ops }) => ops[0])
 }

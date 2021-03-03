@@ -22,6 +22,6 @@ export const createComment = async (
     author,
     pw,
     ip,
-    content,
+    content: content.replace(/</g, "&lt;").replace(/>/g, "&gt;"),
     postId
 }).then(({ ops }) => ops[0])

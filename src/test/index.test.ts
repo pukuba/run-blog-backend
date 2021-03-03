@@ -1,6 +1,6 @@
-import assert from 'assert'
-import app from 'index'
-import request from 'supertest'
+import assert from "assert"
+import app from "index"
+import request from "supertest"
 
 describe(`Server Init Test`, () => {
     it(`Server Running Test-1`, async () => {
