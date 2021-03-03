@@ -7,6 +7,8 @@ export interface Comment {
     address: string
     postId: ObjectId
     _id: ObjectId
+    pw: string
+    date: string
 }
 
 export interface Loaders {
@@ -17,8 +19,10 @@ export interface Post {
     author: string
     title: string
     content: string
+    result: string
     _id: ObjectId
     category: string
     tags: string[]
     postNumber: number
+    date: string
 }

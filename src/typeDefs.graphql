@@ -1,10 +1,43 @@
 type Query{
     test: String!
-    allPosts(page: Int! = 1): PostSearch!
-    searchByKeyword(page: Int! = 1, keyword: String!): PostSearch!
-    searchByTags(page: Int! = 1, tags: [String!]!): PostSearch!
-    searchByCategory(page: Int! = 1, category: String!): PostSearch!
-    getPost(id: String!): Post!
+    allPosts(
+        page: Int! = 1
+    ): PostSearch!
+    searchByKeyword(
+        page: Int! = 1,
+        keyword: String!
+    ): PostSearch!
+    searchByTags(
+        page: Int! = 1, 
+        tags: [String!]!
+    ): PostSearch!
+    searchByCategory(
+        page: Int! = 1, 
+        category: String!
+    ): PostSearch!
+    getPost(
+        id: String!
+    ): Post!
+}
+
+type Mutation{
+    createPost(
+        title: String!,
+        category: String!,
+        tags: [String!]!,
+        content: String!,
+        author: String!
+    ): Post!
+    createComment(
+        author: String!,
+        pw: String!,
+        content: String!,
+        postId: String!
+    ): Comment!
+    deleteComment(
+        id: String!,
+        pw: String!
+    ): Boolean! 
 }
 
 type Comment{
@@ -13,6 +46,7 @@ type Comment{
     address: String!
     postId: String!
     id: String!
+    date: String!
 }
 
 type Post{
@@ -24,6 +58,7 @@ type Post{
     tags: [String!]!
     comments: [Comment!]!
     postNumber: Int!
+    date: String!
 }
 
 type PostSearch{
