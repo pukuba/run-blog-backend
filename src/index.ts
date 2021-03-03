@@ -27,12 +27,13 @@ const start = async () => {
     const server = new ApolloServer({
         typeDefs,
         resolvers,
-        context: () => {
+        context: ({ req }) => {
             return {
                 db,
                 loaders: {
                     commentsLoader: commentsLoader()
-                }
+                },
+                ip: req.headers["x-forwarded-for"]
             }
         },
         validationRules: [

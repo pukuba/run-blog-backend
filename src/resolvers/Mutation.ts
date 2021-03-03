@@ -1,5 +1,14 @@
-import { createPost } from "resolvers/app/posts"
+import {
+    createPost
+} from "resolvers/app/posts"
+
+import {
+    createComment,
+    deleteComment
+} from "resolvers/app/comments"
 
 export default {
-    createPost
+    createPost,
+    createComment,
+    deleteComment
 }

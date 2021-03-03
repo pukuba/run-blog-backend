@@ -7,7 +7,12 @@ const start = async () => {
         name: "seung-won",
         id: "pukuba"
     }
-    console.log(await db.collection("test").insertOne(test).then(({ ops }) => ops[0]))
+    const x = await db.collection("test").insertOne(test).then(({ ops }) => {
+        ops[0].id = ops[0].id + ""
+        return ops[0]
+    })
+    console.log(await db.collection("test").deleteOne({ _id: x._id }).then(({ result }) => result.ok))
+
 }
 
 start()
