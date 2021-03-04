@@ -18,6 +18,8 @@ type Query{
     getPost(
         id: String!
     ): Post!
+    getAllTags: [Tag!]!
+    getAllCategories: [Category!]!
 }
 
 type Mutation{
@@ -63,4 +65,14 @@ type Post{
 type PostSearch{
     postCount: Int!
     posts: [Post!]!
+}
+
+type Tag{
+    cnt: Int!
+    tag: String!
+}
+
+type Category{
+    cnt: Int!
+    category: String!
 }

@@ -3,7 +3,9 @@ import {
     allPosts,
     searchByKeyword,
     searchByTags,
-    searchByCategory
+    searchByCategory,
+    getAllTags,
+    getAllCategories
 } from "resolvers/app/posts"
 
 export default {
@@ -12,5 +14,7 @@ export default {
     allPosts,
     searchByKeyword,
     searchByTags,
-    searchByCategory
+    searchByCategory,
+    getAllTags,
+    getAllCategories
 }

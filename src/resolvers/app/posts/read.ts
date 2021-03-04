@@ -37,3 +37,11 @@ export const searchByCategory = async (parent: void, { category, page }: { categ
         posts: await db.collection("post").find({ category }).skip(left).limit(right).toArray()
     }
 }
+
+export const getAllTags = async (parent: void, args: void, { db }: { db: Db }) => {
+    return await db.collection("tag").find({ cnt: { $gte: 1 } }).toArray()
+}
+
+export const getAllCategories = async (parent: void, args: void, { db }: { db: Db }) => {
+    return await db.collection("category").find({ cnt: { $gte: 1 } }).toArray()
+}

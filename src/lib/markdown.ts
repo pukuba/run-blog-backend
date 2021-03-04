@@ -2,7 +2,7 @@ import markdownIt from "markdown-it"
 import hljs from "highlight.js"
 import emoji from "markdown-it-emoji"
 export const md: markdownIt = new markdownIt({
-    html: false,
+    html: true,
     linkify: true,
     typographer: true,
     langPrefix: 'language-',
