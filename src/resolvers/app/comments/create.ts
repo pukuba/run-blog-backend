@@ -21,7 +21,8 @@ export const createComment = async (
 ) => await db.collection("comment").insertOne({
     author,
     pw,
-    ip,
+    address: ip,
+    date: new Date().toISOString().slice(2, 10).replace(/-/g, ""),
     content: content.replace(/</g, "&lt;").replace(/>/g, "&gt;"),
     postId
 }).then(({ ops }) => ops[0])

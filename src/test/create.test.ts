@@ -5,18 +5,23 @@ import DB from "config/connectDB"
 import request from "supertest"
 import { mock1, mock2 } from "test/mock"
 
-const ids: string[] = []
-
+const postIds: string[] = []
+const commentIds: string[] = []
 describe(`API-TEST Create`, () => {
 
     after(async () => {
         const db: Db = await DB.get()
-        for (const id of ids) {
+        for (const id of postIds) {
             await db.collection("post").deleteOne({ _id: new ObjectId(id) })
+        }
+        for (const id of commentIds) {
+            await db.collection("comment").deleteOne({ _id: new ObjectId(id) })
         }
         await db.collection("tag").updateOne({ tag: "Markdown" }, { $inc: { cnt: -1 } }, { upsert: true })
         await db.collection("tag").updateOne({ tag: "mocha" }, { $inc: { cnt: -1 } }, { upsert: true })
         await db.collection("tag").updateOne({ tag: "back-end" }, { $inc: { cnt: -1 } }, { upsert: true })
+        await db.collection("category").updateOne({ category: "TEST" }, { $inc: { cnt: -1 } }, { upsert: true })
+        await db.collection("category").updateOne({ category: "Interview" }, { $inc: { cnt: -1 } }, { upsert: true })
     })
 
     describe(`Create Post`, () => {
@@ -52,7 +57,7 @@ describe(`API-TEST Create`, () => {
                 assert.deepStrictEqual(data.tags, ["Markdown", "mocha"])
                 assert.deepStrictEqual(data.category, "TEST")
                 assert.deepStrictEqual(Object.keys(data).length, 7)
-                ids.push(data.id)
+                postIds.push(data.id)
             })
 
             it(`Create Test-2`, async () => {
@@ -86,7 +91,7 @@ describe(`API-TEST Create`, () => {
                 assert.deepStrictEqual(data.tags, ["back-end"])
                 assert.deepStrictEqual(data.category, "Interview")
                 assert.deepStrictEqual(Object.keys(data).length, 7)
-                ids.push(data.id)
+                postIds.push(data.id)
             })
         })
 
@@ -145,8 +150,72 @@ describe(`API-TEST Create`, () => {
                     .expect(400)
             })
         })
+
+
     })
     describe("Create Comment", () => {
+        describe("Success", () => {
+            it("Create Test-1", async () => {
+                const query = `
+                    mutation{
+                        createComment(
+                            author:"erolf0123",
+                            content:"Test Comment",
+                            pw:"1111",
+                            postId:"${postIds[0]}"
+                        ){
+                            author
+                            content
+                            address
+                            postId
+                            id
+                            date
+                        }
+                    }
+                `
 
+                const res = await request(app)
+                    .post("/api")
+                    .set("Content-Type", "application/json")
+                    .send(JSON.stringify({ query }))
+                    .expect(200)
+                const data = res.body.data.createComment
+                assert.deepStrictEqual(data.author, "erolf0123")
+                assert.deepStrictEqual(data.content, "Test Comment")
+                assert.deepStrictEqual(data.postId, postIds[0])
+                commentIds.push(data.id)
+                // assert.deepStrictEqual(data.address, "::ffff:127.0.0.1")
+            })
+            it("Create Test-2", async () => {
+                const query = `
+                    mutation{
+                        createComment(
+                            author:"pukuba",
+                            content:"Second test comment",
+                            pw:"1004",
+                            postId:"${postIds[1]}"
+                        ){
+                            author
+                            content
+                            address
+                            postId
+                            id
+                            date
+                        }
+                    }
+                `
+
+                const res = await request(app)
+                    .post("/api")
+                    .set("Content-Type", "application/json")
+                    .send(JSON.stringify({ query }))
+                    .expect(200)
+                const data = res.body.data.createComment
+                commentIds.push(data.id)
+                assert.deepStrictEqual(data.author, "pukuba")
+                assert.deepStrictEqual(data.content, "Second test comment")
+                assert.deepStrictEqual(data.postId, postIds[1])
+            })
+        })
     })
 })

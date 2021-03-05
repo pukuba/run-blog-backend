@@ -33,7 +33,7 @@ const start = async () => {
                 loaders: {
                     commentsLoader: commentsLoader()
                 },
-                ip: req.headers["x-forwarded-for"]
+                ip: req.headers["x-forwarded-for"] || req.ip
             }
         },
         validationRules: [
