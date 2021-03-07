@@ -79,7 +79,7 @@ describe("API-TEST Read", () => {
             await db.collection("post").deleteOne({ _id: new ObjectId(id) })
         }
     })
-    describe("Read Post", () => {
+    describe("Read All Post", () => {
         describe("Success", () => {
             it("Read All Post", async () => {
                 const query = `
@@ -112,8 +112,25 @@ describe("API-TEST Read", () => {
                     .expect(200)
 
                 const data = res.body.data.getAllPosts
-                console.log(data)
 
+                assert.deepStrictEqual(data.postCount, 2)
+                assert.deepStrictEqual(data.posts[0].author, "Pukuba")
+                assert.deepStrictEqual(data.posts[0].title, "Test Mock1")
+                assert.deepStrictEqual(data.posts[0].category, "TEST")
+                assert.deepStrictEqual(data.posts[0].tags, ["Markdown", "mocha"])
+                assert.deepStrictEqual(data.posts[0].comments[0].author, "Seung-won")
+                assert.deepStrictEqual(data.posts[0].comments[0].address, "::ffff:127.0.0.1")
+                assert.deepStrictEqual(data.posts[0].comments[0].content, "test comment1")
+                assert.deepStrictEqual(data.posts[0].id, data.posts[0].comments[0].postId)
+
+                assert.deepStrictEqual(data.posts[1].author, "pukuba")
+                assert.deepStrictEqual(data.posts[1].title, "ODM ? ORM ?")
+                assert.deepStrictEqual(data.posts[1].category, "Interview")
+                assert.deepStrictEqual(data.posts[1].tags, ["back-end"])
+                assert.deepStrictEqual(data.posts[1].comments[0].author, "Nam-Seung-Won")
+                assert.deepStrictEqual(data.posts[1].comments[0].address, "::ffff:127.0.0.1")
+                assert.deepStrictEqual(data.posts[1].comments[0].content, "test comment2")
+                assert.deepStrictEqual(data.posts[1].id, data.posts[1].comments[0].postId)
             })
         })
     })
