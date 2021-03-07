@@ -1,6 +1,6 @@
 type Query{
     test: String!
-    allPosts(
+    getAllPosts(
         page: Int! = 1
     ): PostSearch!
     searchByKeyword(

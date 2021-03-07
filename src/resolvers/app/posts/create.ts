@@ -33,6 +33,7 @@ export const createPost = async (
         author,
         content,
         date,
+        postNumber: await db.collection("post").estimatedDocumentCount() + 1,
         result: md.render(content)
     }).then(({ ops }) => ops[0])
 }

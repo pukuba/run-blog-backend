@@ -1,6 +1,6 @@
 import {
     getPost,
-    allPosts,
+    getAllPosts,
     searchByKeyword,
     searchByTags,
     searchByCategory,
@@ -13,7 +13,7 @@ import {
 
 export {
     getPost,
-    allPosts,
+    getAllPosts,
     searchByKeyword,
     searchByTags,
     searchByCategory,

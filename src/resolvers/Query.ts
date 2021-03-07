@@ -1,6 +1,6 @@
 import {
     getPost,
-    allPosts,
+    getAllPosts,
     searchByKeyword,
     searchByTags,
     searchByCategory,
@@ -11,7 +11,7 @@ import {
 export default {
     test: () => "Server On",
     getPost,
-    allPosts,
+    getAllPosts,
     searchByKeyword,
     searchByTags,
     searchByCategory,
