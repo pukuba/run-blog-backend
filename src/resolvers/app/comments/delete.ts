@@ -1,4 +1,5 @@
 import { Db, ObjectId } from "mongodb"
+import { hashWithSalt } from "lib/hash"
 
 export const deleteComment = async (
     parent: void, {
@@ -13,7 +14,11 @@ export const deleteComment = async (
         db: Db
     }) => {
     try {
-        return await db.collection("comment").deleteOne({ _id: new ObjectId(id), pw }).then(({ result }) => result.ok === 1 ? true : false)
+        const salt = await db.collection("comment").findOne({ _id: new ObjectId(id) }).then((e) => e.salt)
+        return await db.collection("comment").deleteOne({
+            _id: new ObjectId(id),
+            pw: hashWithSalt(pw, salt)
+        }).then(({ result }) => result.n === 1 ? true : false)
     } catch {
         return false
     }
