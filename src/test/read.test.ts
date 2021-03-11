@@ -135,7 +135,7 @@ describe("API-TEST Read", () => {
         })
     })
 
-    describe("searchByTags", () => {
+    describe("Search By Tags", () => {
         describe("Success", () => {
             it("searchByTags - 1", async () => {
                 const query = `
@@ -169,14 +169,199 @@ describe("API-TEST Read", () => {
                     .send(JSON.stringify({ query }))
                     .expect(200)
 
-                console.log(res.body.data.searchByTags.posts[0])
                 const data = res.body.data.searchByTags
-                assert.strictEqual(data.postCount, 2)
-                assert.strictEqual(data.posts[0].author, "Pukuba")
-                assert.strictEqual(data.posts[0].id, postIds[0])
-                assert.strictEqual(data.posts[0].title, "Test Mock1")
-                assert.strictEqual(data.posts[0].category, "TEST")
-                assert.strictEqual(data.posts[0].tags.filter((e: string) => e === "mocha").length, 1)
+                assert.deepStrictEqual(data.postCount, 2)
+                assert(data.posts[0].tags.includes("mocha"))
+                assert(data.posts[1].tags.includes("mocha"))
+            })
+            it("searchByTags - 2", async () => {
+                const query = `
+                    query{
+                        searchByTags(tags:["mocha","Markdown"]){
+                            postCount
+                            posts{
+                                author
+                                result
+                                id
+                                title
+                                category
+                                tags
+                                comments{
+                                    author
+                                    content
+                                    address
+                                    postId
+                                    id
+                                    date
+                                }
+                                date
+                            }
+                        }
+                    }
+                `
+
+                const res = await request(app)
+                    .post("/api")
+                    .set("Content-Type", "application/json")
+                    .send(JSON.stringify({ query }))
+                    .expect(200)
+
+                const data = res.body.data.searchByTags
+                assert.deepStrictEqual(data.postCount, 1)
+                assert(data.posts[0].tags.includes("mocha"))
+                assert(data.posts[0].tags.includes("Markdown"))
+            })
+            it("searchByTags - 3", async () => {
+                const query = `
+                    query{
+                        searchByTags(tags:[""]){
+                            postCount
+                            posts{
+                                author
+                                result
+                                id
+                                title
+                                category
+                                tags
+                                comments{
+                                    author
+                                    content
+                                    address
+                                    postId
+                                    id
+                                    date
+                                }
+                                date
+                            }
+                        }
+                    }
+                `
+
+                const res = await request(app)
+                    .post("/api")
+                    .set("Content-Type", "application/json")
+                    .send(JSON.stringify({ query }))
+                    .expect(200)
+
+                const data = res.body.data.searchByTags
+                assert.deepStrictEqual(data.postCount, 0)
+            })
+        })
+    })
+
+    describe("Search By Category", () => {
+        describe("Success", () => {
+            it("searchByCategory - 1", async () => {
+                const query = `
+                    query{
+                        searchByCategory(category:"TEST"){
+                            postCount
+                            posts{
+                                category
+                            }
+                        }
+                    }
+                `
+
+                const res = await request(app)
+                    .post("/api")
+                    .set("Content-Type", "application/json")
+                    .send(JSON.stringify({ query }))
+                    .expect(200)
+
+                const data = res.body.data.searchByCategory
+                assert.deepStrictEqual(data.postCount, 1)
+                assert.deepStrictEqual(data.posts[0].category, "TEST")
+            })
+            it("searchByCategory - 2", async () => {
+                const query = `
+                    query{
+                        searchByCategory(category:""){
+                            postCount
+                        }
+                    }
+                `
+
+                const res = await request(app)
+                    .post("/api")
+                    .set("Content-Type", "application/json")
+                    .send(JSON.stringify({ query }))
+                    .expect(200)
+
+                const data = res.body.data.searchByCategory
+                assert.deepStrictEqual(data.postCount, 0)
+            })
+        })
+    })
+
+    describe("Search By Keyword", () => {
+        describe("Success", () => {
+            it("searchByKeyword - 1", async () => {
+                const query = `
+                    query{
+                        searchByKeyword(keyword:"Test"){
+                            postCount
+                            posts{
+                                title
+                            }
+                        }
+                    }
+                `
+
+                const res = await request(app)
+                    .post("/api")
+                    .set("Content-Type", "application/json")
+                    .send(JSON.stringify({ query }))
+                    .expect(200)
+
+                const data = res.body.data.searchByKeyword
+                assert.deepStrictEqual(data.postCount, 1)
+                assert(data.posts[0].title.includes("Test"))
+            })
+
+            it("searchByKeyword - 2", async () => {
+                const query = `
+                    query{
+                        searchByKeyword(keyword:""){
+                            postCount
+                            posts{
+                                title
+                            }
+                        }
+                    }
+                `
+
+                const res = await request(app)
+                    .post("/api")
+                    .set("Content-Type", "application/json")
+                    .send(JSON.stringify({ query }))
+                    .expect(200)
+
+                const data = res.body.data.searchByKeyword
+                assert.deepStrictEqual(data.postCount, 2)
+                assert(data.posts[0].title.includes(""))
+            })
+
+            it("searchByKeyword - 3", async () => {
+                const query = `
+                    query{
+                        searchByKeyword(keyword:"pukuba"){
+                            postCount
+                            posts{
+                                title
+                            }
+                        }
+                    }
+                `
+
+                const res = await request(app)
+                    .post("/api")
+                    .set("Content-Type", "application/json")
+                    .send(JSON.stringify({ query }))
+                    .expect(200)
+
+                const data = res.body.data.searchByKeyword
+                assert.deepStrictEqual(data.postCount, 0)
             })
         })
     })

@@ -1,0 +1,18 @@
+services:
+  - mongodb
+
+language: node_js
+
+node_js:
+  - stable
+
+branches:
+  only:
+    - master
+
+install:
+  - npm install
+  - npm test
+
+script:
+  - npm test
