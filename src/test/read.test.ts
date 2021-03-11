@@ -126,11 +126,57 @@ describe("API-TEST Read", () => {
                 assert.deepStrictEqual(data.posts[1].author, "pukuba")
                 assert.deepStrictEqual(data.posts[1].title, "ODM ? ORM ?")
                 assert.deepStrictEqual(data.posts[1].category, "Interview")
-                assert.deepStrictEqual(data.posts[1].tags, ["back-end"])
+                assert.deepStrictEqual(data.posts[1].tags, ["back-end", "mocha"])
                 assert.deepStrictEqual(data.posts[1].comments[0].author, "Nam-Seung-Won")
                 assert.deepStrictEqual(data.posts[1].comments[0].address, "::ffff:127.0.0.1")
                 assert.deepStrictEqual(data.posts[1].comments[0].content, "test comment2")
                 assert.deepStrictEqual(data.posts[1].id, data.posts[1].comments[0].postId)
+            })
+        })
+    })
+
+    describe("searchByTags", () => {
+        describe("Success", () => {
+            it("searchByTags - 1", async () => {
+                const query = `
+                    query{
+                        searchByTags(tags:["mocha"]){
+                            postCount
+                            posts{
+                                author
+                                result
+                                id
+                                title
+                                category
+                                tags
+                                comments{
+                                    author
+                                    content
+                                    address
+                                    postId
+                                    id
+                                    date
+                                }
+                                date
+                            }
+                        }
+                    }
+                `
+
+                const res = await request(app)
+                    .post("/api")
+                    .set("Content-Type", "application/json")
+                    .send(JSON.stringify({ query }))
+                    .expect(200)
+
+                console.log(res.body.data.searchByTags.posts[0])
+                const data = res.body.data.searchByTags
+                assert.strictEqual(data.postCount, 2)
+                assert.strictEqual(data.posts[0].author, "Pukuba")
+                assert.strictEqual(data.posts[0].id, postIds[0])
+                assert.strictEqual(data.posts[0].title, "Test Mock1")
+                assert.strictEqual(data.posts[0].category, "TEST")
+                assert.strictEqual(data.posts[0].tags.filter((e: string) => e === "mocha").length, 1)
             })
         })
     })

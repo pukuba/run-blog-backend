@@ -52,6 +52,6 @@ ORM을 통하여 객체 간의 관계를 바탕으로 SQL을 자동으로 생성
 `,
     category: "Interview",
     author: "pukuba",
-    tags: ['"back-end"'],
+    tags: ['"back-end","mocha"'],
     title: "ODM ? ORM ?"
 }

@@ -88,7 +88,7 @@ describe(`API-TEST Create`, () => {
                     .expect(200)
                 const data = res.body.data.createPost
                 assert.deepStrictEqual(data.title, mock2.title)
-                assert.deepStrictEqual(data.tags, ["back-end"])
+                assert.deepStrictEqual(data.tags, ["back-end", "mocha"])
                 assert.deepStrictEqual(data.category, "Interview")
                 assert.deepStrictEqual(Object.keys(data).length, 7)
                 postIds.push(data.id)
