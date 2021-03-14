@@ -1,4 +1,4 @@
-import {
+export {
     getPost,
     getAllPosts,
     searchByKeyword,
@@ -7,17 +7,7 @@ import {
     getAllTags,
     getAllCategories
 } from "resolvers/app/posts/read"
-import {
-    createPost
-} from "resolvers/app/posts/create"
 
 export {
-    getPost,
-    getAllPosts,
-    searchByKeyword,
-    searchByTags,
-    searchByCategory,
-    createPost,
-    getAllTags,
-    getAllCategories
-}
+    createPost
+} from "resolvers/app/posts/create"
