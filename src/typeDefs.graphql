@@ -1,3 +1,5 @@
+scalar ObjectID
+
 type Query{
     test: String!
     getAllPosts(
@@ -16,7 +18,7 @@ type Query{
         category: String!
     ): PostSearch!
     getPost(
-        id: String!
+        id: ObjectID!
     ): Post!
     getAllTags: [Tag!]!
     getAllCategories: [Category!]!
@@ -37,7 +39,7 @@ type Mutation{
         postId: String!
     ): Comment!
     deleteComment(
-        id: String!,
+        id: ObjectID!,
         pw: String!
     ): Boolean! 
 }
@@ -46,15 +48,15 @@ type Comment{
     author: String!
     content: String!
     address: String!
-    postId: String!
-    id: String!
+    postId: ObjectID!
+    id: ObjectID!
     date: String!
 }
 
 type Post{
     author: String!
     result: String!
-    id: String!
+    id: ObjectID!
     title: String!
     category: String!
     tags: [String!]!

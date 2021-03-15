@@ -18,7 +18,7 @@ describe(`API-TEST Create`, () => {
             await db.collection("comment").deleteOne({ _id: new ObjectId(id) })
         }
         await db.collection("tag").updateOne({ tag: "Markdown" }, { $inc: { cnt: -1 } }, { upsert: true })
-        await db.collection("tag").updateOne({ tag: "mocha" }, { $inc: { cnt: -1 } }, { upsert: true })
+        await db.collection("tag").updateOne({ tag: "mocha" }, { $inc: { cnt: -2 } }, { upsert: true })
         await db.collection("tag").updateOne({ tag: "back-end" }, { $inc: { cnt: -1 } }, { upsert: true })
         await db.collection("category").updateOne({ category: "TEST" }, { $inc: { cnt: -1 } }, { upsert: true })
         await db.collection("category").updateOne({ category: "Interview" }, { $inc: { cnt: -1 } }, { upsert: true })
