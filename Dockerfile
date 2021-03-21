@@ -6,7 +6,9 @@ WORKDIR /server
 
 ADD ./ /server
 
-RUN npm install
+RUN npm install yarn
+
+RUN yarn install
 
 RUN npm run build
 
