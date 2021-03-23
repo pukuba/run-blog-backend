@@ -4,20 +4,27 @@ dotenv.config()
 import { ApolloServer, ApolloError } from "apollo-server-express"
 import { readFileSync } from "fs"
 import { createServer } from "http"
+import { applyMiddleware } from "graphql-middleware"
 import queryComplexity, { simpleEstimator } from "graphql-query-complexity"
 import depthLimit from "graphql-depth-limit"
+import { makeExecutableSchema } from "@graphql-tools/schema"
+import { checkAuth } from "lib/auth"
 
 import DB from "config/connectDB"
 import { commentsLoader } from "lib/dataloader"
+import { permissions } from "lib/permissions"
 
 import express from "express"
 import expressPlayground from "graphql-playground-middleware-express"
 import bodyParser from "body-parser"
 import resolvers from "resolvers"
 const typeDefs = readFileSync("src/typeDefs.graphql", "utf-8")
+const schema = makeExecutableSchema({
+    typeDefs,
+    resolvers
+})
 
 const app = express()
-
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.get("/graphql", expressPlayground({ endpoint: "/api" }))
@@ -25,19 +32,20 @@ app.get("/graphql", expressPlayground({ endpoint: "/api" }))
 const start = async () => {
     const db = await DB.get()
     const server = new ApolloServer({
-        typeDefs,
-        resolvers,
-        context: ({ req }) => {
+        schema: applyMiddleware(schema, permissions),
+        context: ({ req, connection }) => {
+            const token = req?.headers.authorization || connection?.context.authorization
             return {
                 db,
                 loaders: {
                     commentsLoader: commentsLoader()
                 },
-                ip: req.headers["x-forwarded-for"] || req.ip
+                ip: req.headers["x-forwarded-for"] || req.ip,
+                user: checkAuth(token)
             }
         },
         validationRules: [
-            depthLimit(5),
+            depthLimit(7),
             queryComplexity({
                 estimators: [
                     simpleEstimator({ defaultComplexity: 1 })

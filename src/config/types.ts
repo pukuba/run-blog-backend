@@ -26,3 +26,7 @@ export interface Post {
     postNumber: number
     date: string
 }
+
+export interface User {
+    name: string
+}

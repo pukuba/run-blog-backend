@@ -24,7 +24,7 @@ export const createComment = async (
 ) => {
     const salt = cryptoRandomString(15)
     return await db.collection("comment").insertOne({
-        author,
+        author: author.replace(/</g, "&lt;").replace(/>/g, "&gt;"),
         pw: hashWithSalt(pw, salt),
         address: ip,
         salt,
