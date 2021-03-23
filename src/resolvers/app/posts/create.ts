@@ -1,5 +1,5 @@
 import { Db } from "mongodb"
-import { md } from "lib/markdown"
+import { md } from "lib"
 
 export const createPost = async (
     parent: void, {

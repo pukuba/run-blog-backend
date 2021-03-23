@@ -1,14 +1,7 @@
-import {
-    createPost
-} from "resolvers/app/posts"
-
-import {
-    createComment,
-    deleteComment
-} from "resolvers/app/comments"
+import { Mutation as posts } from "resolvers/app/posts"
+import { Mutation as comments } from "resolvers/app/comments"
 
 export default {
-    createPost,
-    createComment,
-    deleteComment
+    ...posts,
+    ...comments
 }

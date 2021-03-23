@@ -1,13 +1,10 @@
-export {
-    getPost,
-    getAllPosts,
-    searchByKeyword,
-    searchByTags,
-    searchByCategory,
-    getAllTags,
-    getAllCategories
-} from "resolvers/app/posts/read"
+import * as readQuery from "resolvers/app/posts/read"
+import * as createMutation from "resolvers/app/posts/create"
 
-export {
-    createPost
-} from "resolvers/app/posts/create"
+export const Query = {
+    ...readQuery
+}
+
+export const Mutation = {
+    ...createMutation
+}

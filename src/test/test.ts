@@ -1,6 +1,5 @@
 import DB from "config/connectDB"
 import { Db } from "mongodb"
-import { md } from "lib/markdown"
 const start = async () => {
     const db: Db = await DB.get()
     const test = {

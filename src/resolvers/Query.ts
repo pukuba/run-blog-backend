@@ -1,20 +1,10 @@
-import {
-    getPost,
-    getAllPosts,
-    searchByKeyword,
-    searchByTags,
-    searchByCategory,
-    getAllTags,
-    getAllCategories
-} from "resolvers/app/posts"
+import { Query as posts } from "resolvers/app/posts"
+import { Query as comments } from "resolvers/app/comments"
+
+const test = () => "Server On"
 
 export default {
-    test: () => "Server On",
-    getPost,
-    getAllPosts,
-    searchByKeyword,
-    searchByTags,
-    searchByCategory,
-    getAllTags,
-    getAllCategories
+    test,
+    ...posts,
+    ...comments
 }

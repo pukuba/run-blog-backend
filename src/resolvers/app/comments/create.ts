@@ -1,7 +1,7 @@
 import { Db, ObjectId } from "mongodb"
 import cryptoRandomString from "crypto-random-string"
 
-import { hashWithSalt } from "lib/hash"
+import { hashWithSalt } from "lib"
 
 export const createComment = async (
     parent: void, {
