@@ -42,6 +42,22 @@ type Mutation{
         id: ObjectID!,
         pw: String!
     ): Boolean! 
+    login(
+        id: String!,
+        pw: String!
+    ): User!
+    logout(
+        refreshToken: String!
+    ): Boolean!
+    register: Boolean!
+    refreshLogin(
+        refreshToken: String!
+    ): User!
+}
+
+type User{
+    token: String!
+    refreshToken: String
 }
 
 type Comment{

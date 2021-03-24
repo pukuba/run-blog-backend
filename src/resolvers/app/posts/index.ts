@@ -1,5 +1,5 @@
-import * as readQuery from "resolvers/app/posts/read"
-import * as createMutation from "resolvers/app/posts/create"
+import * as readQuery from "resolvers/app/posts/query"
+import * as createMutation from "resolvers/app/posts/mutation"
 
 export const Query = {
     ...readQuery

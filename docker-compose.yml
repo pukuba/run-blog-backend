@@ -1,14 +1,19 @@
 version: "3.8"
 
 services:
-  db:
+  mongodb:
     image: mongo:latest
-    container_name: db
+    container_name: mongodb
     expose:
       - "27017"
     volumes:
       - /usr/local/var/mongodb:/data/db
     restart: "unless-stopped"
+  redisdb:
+    image: redis:latest
+    container_name: redisdb
+    expose:
+      - "6379"
   proxy:
     image: nginx:latest
     container_name: proxy

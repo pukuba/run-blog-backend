@@ -1,5 +1,5 @@
 import DataLoader from "dataloader"
-import DB from "config/connectDB"
+import DB from "config/connectMongo"
 import { Comment } from "config/types"
 import { ObjectId } from "mongodb"
 

@@ -10,7 +10,8 @@ import depthLimit from "graphql-depth-limit"
 import { makeExecutableSchema } from "@graphql-tools/schema"
 import { checkAuth } from "lib/auth"
 
-import DB from "config/connectDB"
+import Mongo from "config/connectMongo"
+import Redis from "config/connectRedis"
 import { commentsLoader } from "lib/dataloader"
 import { permissions } from "lib/permissions"
 
@@ -30,13 +31,15 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.get("/graphql", expressPlayground({ endpoint: "/api" }))
 
 const start = async () => {
-    const db = await DB.get()
+    const db = await Mongo.get()
+    const redis = Redis
     const server = new ApolloServer({
         schema: applyMiddleware(schema, permissions),
         context: ({ req, connection }) => {
             const token = req?.headers.authorization || connection?.context.authorization
             return {
                 db,
+                redis,
                 loaders: {
                     commentsLoader: commentsLoader()
                 },

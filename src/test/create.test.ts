@@ -1,7 +1,7 @@
 import assert from "assert"
 import app from "index"
 import { Db, ObjectId } from "mongodb"
-import DB from "config/connectDB"
+import DB from "config/connectMongo"
 import request from "supertest"
 import { mock1, mock2 } from "test/mock"
 

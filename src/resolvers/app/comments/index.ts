@@ -1,9 +1,7 @@
-import * as createMutation from "resolvers/app/comments/create"
-import * as deleteMutation from "resolvers/app/comments/delete"
+import * as commentMutation from "resolvers/app/comments/mutation"
 
 export const Mutation = {
-    ...createMutation,
-    ...deleteMutation
+    ...commentMutation
 }
 
 export const Query = {
