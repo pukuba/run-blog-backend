@@ -32,6 +32,6 @@ export interface User {
 }
 
 export interface AsyncRedis {
-    get(key: string, value: string): Promise<string | null>
+    get(arg1: string): Promise<string | null>
     setex(args1: string, args2: number, args3: string): Promise<string>
 }

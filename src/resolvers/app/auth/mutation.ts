@@ -2,7 +2,7 @@ import { Db } from "mongodb"
 import env from "config/env"
 import { ApolloError } from "apollo-server-errors"
 import cryptoRandomString from "crypto-random-string"
-import { hashWithSalt } from "lib"
+import { hashWithSalt, checkAuth } from "lib"
 import jwt from "jsonwebtoken"
 import { AsyncRedis } from "config/types"
 
@@ -77,8 +77,34 @@ export const login = async (
     }
 }
 
-export const refreshLogin = () => {
-
+export const refreshLogin = async (
+    parent: void, {
+        refreshToken
+    }: {
+        refreshToken: string
+    }, {
+        redis,
+        db
+    }: {
+        redis: AsyncRedis,
+        db: Db
+    }
+) => {
+    const name = await redis.get(refreshToken)
+    const user = checkAuth(refreshToken)
+    if (!name || user === null) {
+        throw new ApolloError("RefreshToken is invalid", "401")
+    }
+    const result = await db.collection("user").findOne({ name }).then(x => x.name)
+    if (!result) {
+        throw new ApolloError("RefreshToken is invalid", "401")
+    }
+    return {
+        token: jwt.sign({
+            name,
+            exp: Math.floor(Date.now() / 1000) + (60 * 30)
+        }, env.JWT_PW)
+    }
 }
 
 export const logout = () => {

@@ -8,8 +8,6 @@ export const checkAuth = (token: string) => {
             env.JWT_PW
         )
     } catch {
-        return {
-            name: null
-        }
+        return null
     }
 }
