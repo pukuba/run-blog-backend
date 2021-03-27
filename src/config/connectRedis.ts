@@ -7,7 +7,9 @@ redis.on('error', (err) => {
 })
 const get = util.promisify(redis.get).bind(redis)
 const setex = util.promisify(redis.setex).bind(redis)
+const del = util.promisify(redis.del).bind(redis)
 export default {
     get,
-    setex
+    setex,
+    del
 }

@@ -107,6 +107,17 @@ export const refreshLogin = async (
     }
 }
 
-export const logout = () => {
-
+export const logout = async (
+    parent: void, {
+        refreshToken
+    }: {
+        refreshToken: string
+    }, {
+        redis
+    }: {
+        redis: AsyncRedis
+    }
+) => {
+    await redis.del(refreshToken)
+    return true
 }

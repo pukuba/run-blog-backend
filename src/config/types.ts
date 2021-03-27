@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb"
 import DataLoader from "dataloader"
-import { Callback } from "redis"
+
 export interface Comment {
     author: string
     content: string
@@ -34,4 +34,5 @@ export interface User {
 export interface AsyncRedis {
     get(arg1: string): Promise<string | null>
     setex(args1: string, args2: number, args3: string): Promise<string>
+    del(args1: string): Promise<number>
 }

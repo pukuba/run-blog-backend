@@ -49,7 +49,12 @@ type Mutation{
     logout(
         refreshToken: String!
     ): Boolean!
-    register: Boolean!
+    register(
+        id: String!,
+        pw: String!,
+        name: String!,
+        key: String!
+    ): Boolean!
     refreshLogin(
         refreshToken: String!
     ): User!
