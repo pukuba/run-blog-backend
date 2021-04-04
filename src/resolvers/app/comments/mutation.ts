@@ -54,5 +54,4 @@ export const createComment = async (
         content: content.replace(/</g, "&lt;").replace(/>/g, "&gt;"),
         postId: new ObjectId(postId)
     }).then(({ ops }) => ops[0])
-
 }

@@ -58,6 +58,9 @@ type Mutation{
     refreshLogin(
         refreshToken: String!
     ): User!
+    unRegister(
+        pw: String!
+    ): Boolean!
 }
 
 type User{

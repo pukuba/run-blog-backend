@@ -8,6 +8,10 @@ import { mock1, mock2 } from "test/mock"
 const postIds: string[] = []
 const commentIds: string[] = []
 describe(`API-TEST Create`, () => {
+    let token = ""
+    before(async () => {
+
+    })
 
     after(async () => {
         const db: Db = await DB.get()
