@@ -3,12 +3,13 @@ import app from "index"
 import { Db, ObjectId } from "mongodb"
 import DB from "config/connectMongo"
 import request from "supertest"
-import { mock1, mock2 } from "test/mock"
+import { mock1, mock2, auth } from "test/mock"
 
 describe("API-TEST Read", () => {
     const postIds: string[] = []
     const commentIds: string[] = []
     before(async () => {
+        const token = await auth()
         const query1 = `
                 mutation{
                     a:createPost(
@@ -33,7 +34,10 @@ describe("API-TEST Read", () => {
             `
         const res1 = await request(app)
             .post(`/api`)
-            .set("Content-Type", "application/json")
+            .set({
+                "Content-Type": "application/json",
+                "Authorization": token
+            })
             .send(JSON.stringify({ query: query1 }))
             .expect(200)
 

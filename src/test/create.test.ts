@@ -3,14 +3,14 @@ import app from "index"
 import { Db, ObjectId } from "mongodb"
 import DB from "config/connectMongo"
 import request from "supertest"
-import { mock1, mock2 } from "test/mock"
+import { mock1, mock2, auth } from "test/mock"
 
 const postIds: string[] = []
 const commentIds: string[] = []
 describe(`API-TEST Create`, () => {
     let token = ""
     before(async () => {
-
+        token = await auth()
     })
 
     after(async () => {
@@ -53,7 +53,10 @@ describe(`API-TEST Create`, () => {
 
                 const res = await request(app)
                     .post(`/api`)
-                    .set("Content-Type", "application/json")
+                    .set({
+                        "Content-Type": "application/json",
+                        "Authorization": token
+                    })
                     .send(JSON.stringify({ query }))
                     .expect(200)
                 const data = res.body.data.createPost
@@ -87,7 +90,10 @@ describe(`API-TEST Create`, () => {
 
                 const res = await request(app)
                     .post(`/api`)
-                    .set("Content-Type", "application/json")
+                    .set({
+                        "Content-Type": "application/json",
+                        "Authorization": token
+                    })
                     .send(JSON.stringify({ query }))
                     .expect(200)
                 const data = res.body.data.createPost
@@ -122,7 +128,10 @@ describe(`API-TEST Create`, () => {
 
                 await request(app)
                     .post(`/api`)
-                    .set("Content-Type", "application/json")
+                    .set({
+                        "Content-Type": "application/json",
+                        "Authorization": token
+                    })
                     .send(JSON.stringify({ query }))
                     .expect(400)
             })
@@ -180,7 +189,10 @@ describe(`API-TEST Create`, () => {
 
                 const res = await request(app)
                     .post("/api")
-                    .set("Content-Type", "application/json")
+                    .set({
+                        "Content-Type": "application/json",
+                        "Authorization": token
+                    })
                     .send(JSON.stringify({ query }))
                     .expect(200)
                 const data = res.body.data.createComment
@@ -188,7 +200,6 @@ describe(`API-TEST Create`, () => {
                 assert.deepStrictEqual(data.content, "Test Comment")
                 assert.deepStrictEqual(data.postId, postIds[0])
                 commentIds.push(data.id)
-                // assert.deepStrictEqual(data.address, "::ffff:127.0.0.1")
             })
             it("Create Test-2", async () => {
                 const query = `
@@ -211,7 +222,10 @@ describe(`API-TEST Create`, () => {
 
                 const res = await request(app)
                     .post("/api")
-                    .set("Content-Type", "application/json")
+                    .set({
+                        "Content-Type": "application/json",
+                        "Authorization": token
+                    })
                     .send(JSON.stringify({ query }))
                     .expect(200)
                 const data = res.body.data.createComment

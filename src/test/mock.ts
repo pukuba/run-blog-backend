@@ -1,3 +1,6 @@
+import request from "supertest"
+import app from "index"
+
 export const mock1 = {
     content: `
 # Hello
@@ -54,4 +57,49 @@ ORM을 통하여 객체 간의 관계를 바탕으로 SQL을 자동으로 생성
     author: "pukuba",
     tags: ['"back-end","mocha"'],
     title: "ODM ? ORM ?"
+}
+
+export const auth = async () => {
+    let token = ""
+    const query1 = `
+                mutation{
+                    register: register(
+                        id:"test1",
+                        pw:"test1",
+                        name:"test1",
+                        key:"banana/apple"
+                    )
+
+                    login: login(
+                        id:"test1",
+                        pw:"test1"
+                    ){
+                        token
+                    }
+                }
+            `
+    const res1 = await request(app)
+        .post(`/api`)
+        .set("Content-Type", "application/json")
+        .send(JSON.stringify({ query: query1 }))
+        .expect(200)
+    token = res1.body.data.login.token
+
+    const query2 = `
+                mutation{
+                    unRegister(
+                        pw:"test1"
+                    )
+                }
+            `
+    await request(app)
+        .post(`/api`)
+        .set({
+            "Content-Type": "application/json",
+            "Authorization": token
+        })
+        .send(JSON.stringify({ query: query2 }))
+        .expect(200)
+
+    return token
 }
