@@ -1,5 +1,6 @@
 services:
   - mongodb
+  - redis-server
 
 language: node_js
 

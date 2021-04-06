@@ -15,7 +15,6 @@ describe("API-TEST Read", () => {
                     a:createPost(
                         content:${JSON.stringify(mock1.content)},
                         category:"${mock1.category}",
-                        author:"${mock1.author}",
                         title:"${mock1.title}",
                         tags:[${mock1.tags}]
                     ){
@@ -24,7 +23,6 @@ describe("API-TEST Read", () => {
                     b:createPost(
                         content:${JSON.stringify(mock2.content)},
                         category:"${mock2.category}",
-                        author:"${mock2.author}",
                         title:"${mock2.title}",
                         tags:[${mock2.tags}]
                     ){
@@ -123,16 +121,13 @@ describe("API-TEST Read", () => {
                 const data = res.body.data.getAllPosts
 
                 assert.deepStrictEqual(data.postCount, 2)
-                assert.deepStrictEqual(data.posts[0].author, "Pukuba")
                 assert.deepStrictEqual(data.posts[0].title, "Test Mock1")
                 assert.deepStrictEqual(data.posts[0].category, "TEST")
                 assert.deepStrictEqual(data.posts[0].tags, ["Markdown", "mocha"])
-                assert.deepStrictEqual(data.posts[0].comments[0].author, "Seung-won")
                 assert.deepStrictEqual(data.posts[0].comments[0].address, "::ffff:127.0.0.1")
                 assert.deepStrictEqual(data.posts[0].comments[0].content, "test comment1")
                 assert.deepStrictEqual(data.posts[0].id, data.posts[0].comments[0].postId)
 
-                assert.deepStrictEqual(data.posts[1].author, "pukuba")
                 assert.deepStrictEqual(data.posts[1].title, "ODM ? ORM ?")
                 assert.deepStrictEqual(data.posts[1].category, "Interview")
                 assert.deepStrictEqual(data.posts[1].tags, ["back-end", "mocha"])

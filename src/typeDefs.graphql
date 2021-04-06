@@ -29,8 +29,7 @@ type Mutation{
         title: String!,
         category: String!,
         tags: [String!]!,
-        content: String!,
-        author: String!
+        content: String!
     ): Post!
     createComment(
         author: String!,

@@ -36,7 +36,6 @@ describe(`API-TEST Create`, () => {
                         createPost(
                             content:${JSON.stringify(mock1.content)},
                             category:"${mock1.category}",
-                            author:"${mock1.author}",
                             tags:[${mock1.tags}],
                             title:"${mock1.title}"
                         ){
@@ -73,7 +72,6 @@ describe(`API-TEST Create`, () => {
                         createPost(
                             content:${JSON.stringify(mock2.content)},
                             category:"${mock2.category}",
-                            author:"${mock2.author}",
                             tags:[${mock2.tags}],
                             title:"${mock2.title}"
                         ){
@@ -112,7 +110,6 @@ describe(`API-TEST Create`, () => {
                         createPost(
                             content:${JSON.stringify(mock1.content)},
                             category:"${mock1.category}",
-                            author:"${mock1.author}",
                             title:"${mock1.title}"
                         ){
                             title

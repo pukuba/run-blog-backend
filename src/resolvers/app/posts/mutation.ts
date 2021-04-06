@@ -1,23 +1,24 @@
 import { Db } from "mongodb"
 import { md } from "lib"
+import { User } from "config/types"
 
 export const createPost = async (
     parent: void, {
         title,
         category,
-        author,
         content,
         tags
     }: {
         title: string,
         category: string,
-        author: string,
         content: string,
         tags: string[]
     }, {
-        db
+        db,
+        user
     }: {
-        db: Db
+        db: Db,
+        user: User
     }
 ) => {
     await db.collection("category").updateOne({ category }, { $inc: { cnt: 1 } }, { upsert: true })
@@ -30,7 +31,7 @@ export const createPost = async (
         title,
         category,
         tags,
-        author,
+        author: user.name,
         content,
         date,
         postNumber: await db.collection("post").estimatedDocumentCount() + 1,
