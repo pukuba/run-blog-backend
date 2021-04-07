@@ -10,7 +10,7 @@ describe("API-TEST Read", () => {
     let token = ""
     const commentIds: string[] = []
     before(async () => {
-        token = await authBefore()
+        token = await authBefore("pukuba")
         const query1 = `
                 mutation{
                     a:createPost(
@@ -126,12 +126,14 @@ describe("API-TEST Read", () => {
 
                 assert.deepStrictEqual(data.postCount, 2)
                 assert.deepStrictEqual(data.posts[0].title, "Test Mock1")
+                assert.deepStrictEqual(data.posts[0].author, "pukuba")
                 assert.deepStrictEqual(data.posts[0].category, "TEST")
                 assert.deepStrictEqual(data.posts[0].tags, ["Markdown", "mocha"])
                 assert.deepStrictEqual(data.posts[0].comments[0].address, "::ffff:127.0.0.1")
                 assert.deepStrictEqual(data.posts[0].comments[0].content, "test comment1")
                 assert.deepStrictEqual(data.posts[0].id, data.posts[0].comments[0].postId)
 
+                assert.deepStrictEqual(data.posts[1].author, "pukuba")
                 assert.deepStrictEqual(data.posts[1].title, "ODM ? ORM ?")
                 assert.deepStrictEqual(data.posts[1].category, "Interview")
                 assert.deepStrictEqual(data.posts[1].tags, ["back-end", "mocha"])

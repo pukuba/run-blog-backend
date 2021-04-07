@@ -59,13 +59,13 @@ ORM을 통하여 객체 간의 관계를 바탕으로 SQL을 자동으로 생성
     title: "ODM ? ORM ?"
 }
 
-export const authBefore = async () => {
+export const authBefore = async (name: string = "test1") => {
     const query = `
                 mutation{
                     register: register(
                         id:"test1",
                         pw:"test1",
-                        name:"test1",
+                        name:"${name}",
                         key:"banana/apple"
                     )
 
