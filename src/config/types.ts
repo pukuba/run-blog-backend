@@ -36,3 +36,8 @@ export interface AsyncRedis {
     setex(args1: string, args2: number, args3: string): Promise<string>
     del(args1: string): Promise<number>
 }
+
+export interface AsyncMemcached {
+    get: (arg1: string) => Promise<any>
+    set: (arg1: string, arg2: any, arg3: number) => Promise<any>
+}

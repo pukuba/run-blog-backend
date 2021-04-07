@@ -3,13 +3,14 @@ import app from "index"
 import { Db, ObjectId } from "mongodb"
 import DB from "config/connectMongo"
 import request from "supertest"
-import { mock1, mock2, auth } from "test/mock"
+import { mock1, mock2, authAfter, authBefore } from "test/mock"
 
 describe("API-TEST Read", () => {
     const postIds: string[] = []
+    let token = ""
     const commentIds: string[] = []
     before(async () => {
-        const token = await auth()
+        token = await authBefore()
         const query1 = `
                 mutation{
                     a:createPost(
@@ -64,15 +65,18 @@ describe("API-TEST Read", () => {
 
         const res2 = await request(app)
             .post(`/api`)
-            .set("Content-Type", "application/json")
+            .set({
+                "Content-Type": "application/json",
+                "Authorization": token
+            })
             .send(JSON.stringify({ query: query2 }))
             .expect(200)
-
         const data2 = res2.body.data
         commentIds.push(...[data2.a.id, data2.b.id])
     })
 
     after(async () => {
+        await authAfter(token);
         const db: Db = await DB.get()
         for (const id of commentIds) {
             await db.collection("comment").deleteOne({ _id: new ObjectId(id) })

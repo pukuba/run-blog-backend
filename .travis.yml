@@ -1,6 +1,7 @@
 services:
   - mongodb
   - redis-server
+  - memcached
 
 language: node_js
 

@@ -4,7 +4,7 @@ import { ApolloError } from "apollo-server-errors"
 import cryptoRandomString from "crypto-random-string"
 import { hashWithSalt, checkAuth } from "lib"
 import jwt from "jsonwebtoken"
-import { AsyncRedis, User } from "config/types"
+import { AsyncRedis, User, AsyncMemcached } from "config/types"
 
 export const register = async (
     parent: void, {
@@ -114,16 +114,23 @@ export const unRegister = async (
         pw: string
     }, {
         db,
-        user
+        user,
+        memcached,
+        token
     }: {
         db: Db,
-        user: User
+        user: User,
+        memcached: AsyncMemcached,
+        token: string
     }
 ) => {
     const name = user.name
     const result = await db.collection("user").findOne({ name })
     if (hashWithSalt(pw, result.salt) === result.pw) {
-        await db.collection("user").deleteOne({ name })
+        await Promise.all([
+            db.collection("user").deleteOne({ name }),
+            memcached.set(token, "blackList", 60 * 30)
+        ])
         return true
     }
     else {

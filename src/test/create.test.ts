@@ -3,17 +3,18 @@ import app from "index"
 import { Db, ObjectId } from "mongodb"
 import DB from "config/connectMongo"
 import request from "supertest"
-import { mock1, mock2, auth } from "test/mock"
+import { mock1, mock2, authBefore, authAfter } from "test/mock"
 
 const postIds: string[] = []
 const commentIds: string[] = []
 describe(`API-TEST Create`, () => {
     let token = ""
     before(async () => {
-        token = await auth()
+        token = await authBefore()
     })
 
     after(async () => {
+        await authAfter(token)
         const db: Db = await DB.get()
         for (const id of postIds) {
             await db.collection("post").deleteOne({ _id: new ObjectId(id) })

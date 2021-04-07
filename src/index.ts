@@ -11,7 +11,8 @@ import { makeExecutableSchema } from "@graphql-tools/schema"
 import { checkAuth } from "lib/auth"
 
 import Mongo from "config/connectMongo"
-import Redis from "config/connectRedis"
+import redis from "config/connectRedis"
+import memcached from "config/connectMemcached"
 import { commentsLoader } from "lib/dataloader"
 import { permissions } from "lib/permissions"
 
@@ -32,10 +33,9 @@ app.get("/graphql", expressPlayground({ endpoint: "/api" }))
 
 const start = async () => {
     const db = await Mongo.get()
-    const redis = Redis
     const server = new ApolloServer({
         schema: applyMiddleware(schema, permissions),
-        context: ({ req, connection }) => {
+        context: async ({ req, connection }) => {
             const token = req?.headers.authorization || connection?.context.authorization
             return {
                 db,
@@ -44,7 +44,9 @@ const start = async () => {
                     commentsLoader: commentsLoader()
                 },
                 ip: req.headers["x-forwarded-for"] || req.ip,
-                user: checkAuth(token)
+                user: await checkAuth(token),
+                token,
+                memcached
             }
         },
         validationRules: [

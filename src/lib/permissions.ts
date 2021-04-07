@@ -9,6 +9,7 @@ export const permissions = shield({
     Mutation: {
         createPost: isValid,
         unRegister: isValid,
-        register: isNull
+        register: isNull,
+        login: isNull
     }
 })
